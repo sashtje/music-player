@@ -1,0 +1,29 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.s {
+  width: 24px;
+  height: 24px;
+}
+
+.m {
+  width: 54px;
+  height: 54px;
+}
+
+.l {
+  width: 64px;
+  height: 64px;
+}
+
+.round {
+  border-radius: 50%;
+  background-color: rgba(5, 172, 106, 0.30);
+}

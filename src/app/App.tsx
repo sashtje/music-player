@@ -1,11 +1,17 @@
-import React from 'react';
+import { Player } from "../components/Player";
+import {Panel} from "../components/Panel";
+import {Cover} from "../components/Cover";
+import {usePlayerContext} from "../shared/context/PlayerContext";
+import {classNames} from "../shared/helpers/classNames";
 
-import styles from './App.module.css';
+import cls from './App.module.css';
 
 export const App = () => {
-  return (
-    <div className={styles.app}>
+  const { isPlaying } = usePlayerContext();
 
-    </div>
+  return (
+    <main className={classNames(cls.app, {[cls.playing]: isPlaying}, [])}>
+      <Player panel={<Panel />} cover={<Cover />} />
+    </main>
   );
 }

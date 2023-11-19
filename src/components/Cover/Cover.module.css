@@ -1,0 +1,23 @@
+.cover {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  right: 0;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  animation: 1s cover-rotation infinite linear paused;
+}
+
+.playing {
+  animation-play-state: running;
+}
+
+@keyframes cover-rotation {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

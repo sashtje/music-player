@@ -5,4 +5,11 @@
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.playing {
+  background-image: url("../assets/images/background-play.svg");
 }
