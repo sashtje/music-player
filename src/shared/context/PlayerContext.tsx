@@ -5,12 +5,11 @@ const initialContext = {
   trackNumber: 1,
   isPlaying: false,
   progressValue: 0,
-  volumeValue: 0,
+  volumeValue: 0.5,
   trackTitle: PLAY_LIST[0].title,
   coverSrc: PLAY_LIST[0].coverSrc,
   onPlayPause: () => {},
-  onPrevTrack: () => {},
-  onNextTrack: () => {},
+  onSwitchTrack: () => {},
   onVolumeTurnOff: () => {},
   onVolumeTurnOn: () => {},
   onSetVolume: () => {},
@@ -18,22 +17,86 @@ const initialContext = {
 };
 
 const usePlayer = () => {
-  const [trackNumber, setTrackNumber] = useState(initialContext.trackNumber);
+  const trackNumberRef = useRef(initialContext.trackNumber);
   const [isPlaying, setIsPlaying] = useState(initialContext.isPlaying);
-  const [progressValue, setProgressValue] = useState(initialContext.progressValue);
   const [volumeValue, setVolumeValue] = useState(initialContext.volumeValue);
 
-  const trackIndex = trackNumber - 1;
   const [trackTitle, setTrackTitle] = useState(initialContext.trackTitle);
   const [coverSrc, setCoverSrc] = useState(initialContext.coverSrc);
 
   const audioRef = useRef(new Audio());
 
   useEffect(() => {
+    audioRef.current.src = PLAY_LIST[0].trackSrc;
+  }, []);
+
+  useEffect(() => {
+    audioRef.current.volume = volumeValue;
+
+    const volumePercent = volumeValue * 100;
+    document.body.style.setProperty('--volume-value', `linear-gradient(90deg, #05AC6A 0%, #05AC6A ${volumePercent}%, #C5C6C5 ${volumePercent}%, #C5C6C5 100%)`);
+  }, [volumeValue]);
+
+  const timerRef = useRef<ReturnType<typeof setInterval>>();
+
+  const showProgress = () => {
+    const progressValue = (audioRef.current.currentTime / audioRef.current.duration) * 100 || 0;
+
+    document.body.style.setProperty('--progress-value', `linear-gradient(90deg, #05AC6A 0%, #05AC6A ${progressValue}%, #C5C6C5 ${progressValue}%, #C5C6C5 100%)`);
+  };
+
+  const switchTrackData = () => {
+    const trackIndex = trackNumberRef.current - 1;
+
     audioRef.current.src = PLAY_LIST[trackIndex].trackSrc;
     setTrackTitle(PLAY_LIST[trackIndex].title);
     setCoverSrc(PLAY_LIST[trackIndex].coverSrc);
-  }, [trackIndex]);
+    showProgress();
+  };
+
+  const onPrevTrack = () => {
+    if (trackNumberRef.current === 1) {
+      trackNumberRef.current = PLAY_LIST.length;
+    } else {
+      trackNumberRef.current--;
+    }
+  };
+
+  const onNextTrack = () => {
+    if (trackNumberRef.current === PLAY_LIST.length) {
+      trackNumberRef.current = 1;
+    } else {
+      trackNumberRef.current++;
+    }
+  };
+
+  const onSwitchTrack = (direction: 'prev' | 'next') => {
+    const switchTrackNumber = direction === "prev" ? onPrevTrack : onNextTrack;
+
+    switchTrackNumber();
+    switchTrackData();
+
+    if (isPlaying) {
+      audioRef.current.play();
+    };
+  };
+
+  const handleProgress = () => {
+    showProgress();
+    if (audioRef.current.currentTime === audioRef.current.duration) {
+      onSwitchTrack("next");
+    }
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      timerRef.current = setInterval(handleProgress, 300);
+    } else {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+      }
+    }
+  }, [isPlaying]);
 
   const onPlayPause = () => {
     if (isPlaying) {
@@ -42,34 +105,6 @@ const usePlayer = () => {
     } else {
       audioRef.current.play();
       setIsPlaying(true);
-    }
-  };
-
-  const onSwitchTrack = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    }
-    setProgressValue(0);
-  };
-
-  const onPrevTrack = () => {
-    onSwitchTrack();
-
-    if (trackNumber === 1) {
-      setTrackNumber(PLAY_LIST.length);
-    } else {
-      setTrackNumber(trackNumber - 1);
-    }
-  };
-
-  const onNextTrack = () => {
-    onSwitchTrack();
-
-    if (trackNumber === PLAY_LIST.length) {
-      setTrackNumber(1);
-    } else {
-      setTrackNumber(trackNumber + 1);
     }
   };
 
@@ -85,20 +120,18 @@ const usePlayer = () => {
     setVolumeValue(newVolumeValue);
   };
 
-  const onSetProgress = (newProgressValue: number) => {
-    setProgressValue(newProgressValue);
+  const onSetProgress = (newProgressValueInPercent: number) => {
+    audioRef.current.currentTime = audioRef.current.duration * newProgressValueInPercent / 100;
+    showProgress();
   };
 
   return {
-    trackNumber,
     isPlaying,
-    progressValue,
     volumeValue,
     trackTitle,
     coverSrc,
     onPlayPause,
-    onPrevTrack,
-    onNextTrack,
+    onSwitchTrack,
     onVolumeTurnOff,
     onVolumeTurnOn,
     onSetVolume,

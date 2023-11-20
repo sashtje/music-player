@@ -2,7 +2,6 @@ import {Button} from "../Button";
 import {VolumeControls} from "../VolumeControls";
 import {ProgressBar} from "../ProgressBar";
 import {usePlayerContext} from "../../shared/context/PlayerContext";
-import {classNames} from "../../shared/helpers/classNames";
 
 import cls from './Panel.module.css';
 
@@ -11,17 +10,31 @@ import {ReactComponent as PlayPauseIcon} from '../../assets/icons/pause-play.svg
 import {ReactComponent as NextIcon} from '../../assets/icons/next.svg';
 
 export const Panel = () => {
-  const { isPlaying, trackTitle, onPlayPause, onPrevTrack, onNextTrack } = usePlayerContext();
+  const { trackTitle, onPlayPause, onSwitchTrack } = usePlayerContext();
+
+  const onPrevTrack = () => {
+    onSwitchTrack('prev');
+  };
+
+  const onNextTrack = () => {
+    onSwitchTrack("next");
+  };
 
   return (
-    <div className={classNames(cls.panel, {[cls.playing]: isPlaying}, [])}>
-      <Button variant='round' size='m' onClick={onPrevTrack}><PrevIcon /></Button>
+    <div className={cls.panel}>
+      <Button variant='round' size='m' onClick={onPrevTrack}>
+        <PrevIcon className={cls.prevIcon} />
+      </Button>
       <VolumeControls />
 
-      <Button variant='round' size='l' onClick={onPlayPause}><PlayPauseIcon /></Button>
+      <Button variant='round' size='l' onClick={onPlayPause}>
+        <PlayPauseIcon className={cls.playPauseIcon} />
+      </Button>
       <h1>{trackTitle}</h1>
 
-      <Button variant='round' size='m' onClick={onNextTrack}><NextIcon /></Button>
+      <Button variant='round' size='m' onClick={onNextTrack}>
+        <NextIcon className={cls.nextIcon} />
+      </Button>
       <ProgressBar />
     </div>
   );

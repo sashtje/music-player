@@ -15,7 +15,20 @@
   align-items: center;
 }
 
-.playing {
+:global(.playing) .panel {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   background-image: url("../../assets/images/Logo-play.svg");
+}
+
+:global(.playing) .prevIcon *,
+:global(.playing) .nextIcon * {
+  stroke: #1c274c;
+}
+
+:global(.playing) .playPauseIcon * {
+  stroke: #000000;
+}
+
+:global(.playing) .playPauseIcon :global(.triangle) {
+  fill: #000000;
 }

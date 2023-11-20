@@ -6,10 +6,13 @@
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.animation {
   animation: 1s cover-rotation infinite linear paused;
 }
 
-.playing {
+:global(.playing) .animation {
   animation-play-state: running;
 }
 

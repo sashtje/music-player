@@ -17,7 +17,7 @@
 
 .range::-webkit-slider-runnable-track {
   height: 2px;
-  background: linear-gradient(90deg, #05AC6A 0%, #C5C6C5 32.81%, #C5C6C5 100%);
+  background: var(--volume-value);
 }
 
 .range::-webkit-slider-thumb {
@@ -33,7 +33,7 @@
 
 .range::-moz-range-track {
   height: 2px;
-  background: linear-gradient(90deg, #05AC6A 0%, #C5C6C5 32.81%, #C5C6C5 100%);
+  background: var(--volume-value);
 }
 
 .range::-moz-range-thumb {
@@ -43,4 +43,9 @@
   width: 12px;
   height: 12px;
   border: none;
+}
+
+:global(.playing) .volumeCrossIcon *,
+:global(.playing) .volumeLoudIcon * {
+  stroke: #1c274c;
 }

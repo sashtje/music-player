@@ -10,6 +10,6 @@
   justify-content: center;
 }
 
-.playing {
+:global(.playing) {
   background-image: url("../assets/images/background-play.svg");
 }

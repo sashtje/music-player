@@ -1,18 +1,31 @@
-import {CSSProperties} from "react";
+import {CSSProperties, useEffect, useMemo, useRef} from "react";
 
 import {usePlayerContext} from "../../shared/context/PlayerContext";
 
 import cls from './Cover.module.css';
-import {classNames} from "../../shared/helpers/classNames";
 
 export const Cover = () => {
-  const { coverSrc, isPlaying } = usePlayerContext();
+  const { coverSrc } = usePlayerContext();
 
-  const styles:  CSSProperties = {
+  const coverRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (coverRef.current) {
+      coverRef.current.className = cls.cover;
+
+      setTimeout(() => {
+        if (coverRef.current) {
+          coverRef.current.className = `${cls.cover} ${cls.animation}`;
+        }
+      }, 0);
+    }
+  }, [coverSrc]);
+
+  const styles:  CSSProperties = useMemo(() => ({
     backgroundImage: `url(${coverSrc})`,
-  };
+  }), [coverSrc]);
 
   return (
-    <div className={classNames(cls.cover, {[cls.playing]: isPlaying}, [])} style={styles} />
+    <div ref={coverRef} className={cls.cover} style={styles} />
   );
 };

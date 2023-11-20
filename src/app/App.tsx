@@ -10,7 +10,7 @@ export const App = () => {
   const { isPlaying } = usePlayerContext();
 
   return (
-    <main className={classNames(cls.app, {[cls.playing]: isPlaying}, [])}>
+    <main className={classNames(cls.app, {'playing': isPlaying}, [])}>
       <Player panel={<Panel />} cover={<Cover />} />
     </main>
   );

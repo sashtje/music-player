@@ -1,6 +1,9 @@
 @import './reset.css';
 
 :root {
+  --volume-value: linear-gradient(90deg, #05AC6A 0%, #05AC6A 50%, #C5C6C5 50%, #C5C6C5 100%);
+  --progress-value: linear-gradient(90deg, #05ac6a 0%, #05ac6a 0%, #c5c6c5 0%, #c5c6c5 100%);
+
   box-sizing: border-box;
 }
 
@@ -14,4 +17,13 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 24px;
   font-weight: 300;
+}
+
+@keyframes cover-rotation {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
