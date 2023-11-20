@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, useMemo} from "react";
+import {ButtonHTMLAttributes} from "react";
 
 import {classNames} from "../../shared/helpers/classNames";
 
