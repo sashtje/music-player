@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useEffect, useRef, useState} from "react";
+import {createContext, ReactNode, useCallback, useContext, useEffect, useRef, useState} from "react";
 
 import {PLAY_LIST} from "../../assets/playList";
 
@@ -40,38 +40,38 @@ const usePlayer = () => {
 
   const timerRef = useRef<ReturnType<typeof setInterval>>();
 
-  const showProgress = () => {
+  const showProgress = useCallback(() => {
     const progressValue = (audioRef.current.currentTime / audioRef.current.duration) * 100 || 0;
 
     document.body.style.setProperty('--progress-value', `linear-gradient(90deg, #05AC6A 0%, #05AC6A ${progressValue}%, #C5C6C5 ${progressValue}%, #C5C6C5 100%)`);
-  };
+  }, []);
 
-  const switchTrackData = () => {
+  const switchTrackData = useCallback(() => {
     const trackIndex = trackNumberRef.current - 1;
 
     audioRef.current.src = PLAY_LIST[trackIndex].trackSrc;
     setTrackTitle(PLAY_LIST[trackIndex].title);
     setCoverSrc(PLAY_LIST[trackIndex].coverSrc);
     showProgress();
-  };
+  }, [showProgress]);
 
-  const onPrevTrack = () => {
+  const onPrevTrack = useCallback(() => {
     if (trackNumberRef.current === 1) {
       trackNumberRef.current = PLAY_LIST.length;
     } else {
       trackNumberRef.current--;
     }
-  };
+  }, []);
 
-  const onNextTrack = () => {
+  const onNextTrack = useCallback(() => {
     if (trackNumberRef.current === PLAY_LIST.length) {
       trackNumberRef.current = 1;
     } else {
       trackNumberRef.current++;
     }
-  };
+  }, []);
 
-  const onSwitchTrack = (direction: 'prev' | 'next') => {
+  const onSwitchTrack = useCallback((direction: 'prev' | 'next') => {
     const switchTrackNumber = direction === "prev" ? onPrevTrack : onNextTrack;
 
     switchTrackNumber();
@@ -80,14 +80,14 @@ const usePlayer = () => {
     if (isPlaying) {
       audioRef.current.play();
     };
-  };
+  }, [isPlaying, onPrevTrack, onNextTrack, switchTrackData]);
 
-  const handleProgress = () => {
+  const handleProgress = useCallback(() => {
     showProgress();
     if (audioRef.current.currentTime === audioRef.current.duration) {
       onSwitchTrack("next");
     }
-  };
+  }, [showProgress, onSwitchTrack]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -97,9 +97,9 @@ const usePlayer = () => {
         clearInterval(timerRef.current);
       }
     }
-  }, [isPlaying]);
+  }, [isPlaying, handleProgress]);
 
-  const onPlayPause = () => {
+  const onPlayPause = useCallback(() => {
     if (isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -107,24 +107,24 @@ const usePlayer = () => {
       audioRef.current.play();
       setIsPlaying(true);
     }
-  };
+  }, [isPlaying]);
 
-  const onVolumeTurnOff = () => {
+  const onVolumeTurnOff = useCallback(() => {
     setVolumeValue(0);
-  };
+  }, []);
 
-  const onVolumeTurnOn = () => {
+  const onVolumeTurnOn = useCallback(() => {
     setVolumeValue(1);
-  };
+  }, []);
 
-  const onSetVolume = (newVolumeValue: number) => {
+  const onSetVolume = useCallback((newVolumeValue: number) => {
     setVolumeValue(newVolumeValue);
-  };
+  }, []);
 
-  const onSetProgress = (newProgressValueInPercent: number) => {
+  const onSetProgress = useCallback((newProgressValueInPercent: number) => {
     audioRef.current.currentTime = audioRef.current.duration * newProgressValueInPercent / 100;
     showProgress();
-  };
+  }, [showProgress]);
 
   return {
     isPlaying,
