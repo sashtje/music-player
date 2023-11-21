@@ -36,3 +36,23 @@
 :global(.playing) .round {
   background-color: rgba(5, 172, 106, 0.30);
 }
+
+@media screen and (max-width: 450px) {
+  .m {
+    width: 34px;
+    height: 34px;
+  }
+
+  .m svg {
+    width: 24px;
+  }
+
+  .l {
+    width: 45px;
+    height: 45px;
+  }
+
+  .l svg {
+    width: 34px;
+  }
+}

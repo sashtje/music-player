@@ -32,3 +32,29 @@
 :global(.playing) .playPauseIcon :global(.triangle) {
   fill: #000000;
 }
+
+.trackTitle {
+  text-align: center;
+}
+
+@media screen and (max-width: 780px) {
+  .panel {
+    margin: 10px;
+    max-width: 437px;
+    width: 100%;
+    padding: 6px 12px;
+    grid-template-columns: 64px 1fr;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  .panel {
+    grid-template-columns: 45px 1fr;
+  }
+}
+
+@media screen and (max-width: 430px) {
+  .panel {
+    background-position: center;
+  }
+}

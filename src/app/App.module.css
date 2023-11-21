@@ -13,3 +13,13 @@
 :global(.playing) {
   background-image: url("../assets/images/background-play.svg");
 }
+
+@media screen and (max-width: 650px) {
+  .app {
+    background-image: unset;
+  }
+
+  :global(.playing) {
+    background-image: unset;
+  }
+}

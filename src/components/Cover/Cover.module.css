@@ -2,7 +2,7 @@
   position: absolute;
   width: 320px;
   height: 320px;
-  right: 0;
+  right: 20px;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center;
@@ -22,5 +22,11 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .cover {
+    display: none;
   }
 }

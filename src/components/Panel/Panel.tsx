@@ -32,7 +32,7 @@ export const Panel = () => {
       <Button variant='round' size='l' onClick={onPlayPause} aria-label={isPlaying ? 'Turn off the track' : 'Turn on the track'}>
         <PlayPauseIcon className={cls.playPauseIcon} />
       </Button>
-      <div>{trackTitle}</div>
+      <div className={cls.trackTitle}>{trackTitle}</div>
 
       <Button variant='round' size='m' onClick={onNextTrack} aria-label='Go to next track'>
         <NextIcon className={cls.nextIcon} />
