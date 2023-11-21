@@ -30,7 +30,7 @@ export const Panel = () => {
       <Button variant='round' size='l' onClick={onPlayPause}>
         <PlayPauseIcon className={cls.playPauseIcon} />
       </Button>
-      <h1>{trackTitle}</h1>
+      <div>{trackTitle}</div>
 
       <Button variant='round' size='m' onClick={onNextTrack}>
         <NextIcon className={cls.nextIcon} />

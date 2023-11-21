@@ -1,4 +1,4 @@
-import {MouseEvent} from "react";
+import {KeyboardEvent, MouseEvent} from "react";
 
 import {usePlayerContext} from "../../shared/context/PlayerContext";
 
@@ -9,7 +9,7 @@ interface ProgressMouseEvent extends MouseEvent<HTMLDivElement> {
 }
 
 export const ProgressBar = () => {
-  const { onSetProgress } = usePlayerContext();
+  const { onSetProgress, onShiftProgressWithKeyboard } = usePlayerContext();
 
   const handleProgressSet = (e: ProgressMouseEvent) => {
     const {left, width} =  e.target.getBoundingClientRect();
@@ -19,7 +19,17 @@ export const ProgressBar = () => {
     onSetProgress(newProgressValue);
   };
 
+  const handleProgressChangeWithKeyboard = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.code === 'ArrowLeft') {
+      onShiftProgressWithKeyboard("left");
+    } else if (e.code === 'ArrowRight') {
+      onShiftProgressWithKeyboard("right");
+    } else {
+      return;
+    }
+  };
+
   return (
-    <div className={cls.progressBar} onClick={handleProgressSet} />
+    <div className={cls.progressBar} onClick={handleProgressSet} tabIndex={0} onKeyDown={handleProgressChangeWithKeyboard} />
   );
 };

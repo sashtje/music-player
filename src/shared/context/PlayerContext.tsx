@@ -15,7 +15,10 @@ const initialContext = {
   onVolumeTurnOn: () => {},
   onSetVolume: () => {},
   onSetProgress: () => {},
+  onShiftProgressWithKeyboard: () => {},
 };
+
+const SHIFT_IN_PERCENT = 10;
 
 const usePlayer = () => {
   const trackNumberRef = useRef(initialContext.trackNumber);
@@ -126,6 +129,26 @@ const usePlayer = () => {
     showProgress();
   }, [showProgress]);
 
+  const onShiftProgressWithKeyboard = useCallback((shift: 'left' | 'right') => {
+    let shiftTime = SHIFT_IN_PERCENT * audioRef.current.duration / 100;
+
+    if (shift === 'left') {
+      if (audioRef.current.currentTime > shiftTime) {
+        audioRef.current.currentTime -= shiftTime;
+      } else {
+        audioRef.current.currentTime = 0;
+      }
+    } else {
+      if (audioRef.current.currentTime + shiftTime > audioRef.current.duration) {
+        audioRef.current.currentTime = audioRef.current.duration;
+      } else {
+        audioRef.current.currentTime += shiftTime;
+      }
+    }
+
+    showProgress();
+  }, [showProgress]);
+
   return {
     isPlaying,
     volumeValue,
@@ -137,6 +160,7 @@ const usePlayer = () => {
     onVolumeTurnOn,
     onSetVolume,
     onSetProgress,
+    onShiftProgressWithKeyboard,
   };
 };
 
