@@ -1,6 +1,8 @@
 ## Audio Player
 
-The design was taken from [layout in Figma](https://www.figma.com/file/nXkIT9UflSACu0V8aw7e7h/Test-Task-Template-(Copy)?node-id=213%3A50&mode=dev)
+You can see the app [on the link](https://sashtje.github.io/music-player)
+
+The design was taken from [layout in Figma](https://www.figma.com/file/pRmrqqLIEYcdRASX0OYD7Q/Test-Task-Template?type=design&node-id=0%3A1&mode=design&t=8TRB50u48X7FN0di-1)
 
 ## Available Scripts
 
