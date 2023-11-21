@@ -1,4 +1,4 @@
-import {ChangeEvent} from "react";
+import {ChangeEvent, useCallback, memo} from "react";
 
 import {Button} from "../Button";
 import {usePlayerContext} from "../../shared/context/PlayerContext";
@@ -8,12 +8,12 @@ import cls from './VolumeControls.module.css';
 import {ReactComponent as VolumeCrossIcon} from "../../assets/icons/volume-cross.svg";
 import {ReactComponent as VolumeLoudIcon} from "../../assets/icons/volume-loud.svg";
 
-export const VolumeControls = () => {
+export const VolumeControls = memo(() => {
   const { volumeValue, onVolumeTurnOff, onVolumeTurnOn, onSetVolume } = usePlayerContext();
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     onSetVolume(Number(e.target.value));
-  };
+  }, [onSetVolume]);
 
   return (
     <div className={cls.volume}>
@@ -28,4 +28,6 @@ export const VolumeControls = () => {
       </Button>
     </div>
   );
-};
+});
+
+VolumeControls.displayName = 'VolumeControls';

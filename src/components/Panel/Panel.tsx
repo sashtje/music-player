@@ -1,3 +1,5 @@
+import {useCallback} from "react";
+
 import {Button} from "../Button";
 import {VolumeControls} from "../VolumeControls";
 import {ProgressBar} from "../ProgressBar";
@@ -12,13 +14,13 @@ import {ReactComponent as NextIcon} from '../../assets/icons/next.svg';
 export const Panel = () => {
   const { isPlaying, trackTitle, onPlayPause, onSwitchTrack } = usePlayerContext();
 
-  const onPrevTrack = () => {
+  const onPrevTrack = useCallback(() => {
     onSwitchTrack('prev');
-  };
+  }, [onSwitchTrack]);
 
-  const onNextTrack = () => {
+  const onNextTrack = useCallback(() => {
     onSwitchTrack("next");
-  };
+  }, [onSwitchTrack]);
 
   return (
     <div className={cls.panel}>

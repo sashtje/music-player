@@ -1,4 +1,4 @@
-import {KeyboardEvent, MouseEvent} from "react";
+import {KeyboardEvent, MouseEvent, useCallback, memo} from "react";
 
 import {usePlayerContext} from "../../shared/context/PlayerContext";
 
@@ -8,18 +8,18 @@ interface ProgressMouseEvent extends MouseEvent<HTMLDivElement> {
   target: HTMLDivElement,
 }
 
-export const ProgressBar = () => {
+export const ProgressBar = memo(() => {
   const { onSetProgress, onShiftProgressWithKeyboard } = usePlayerContext();
 
-  const handleProgressSet = (e: ProgressMouseEvent) => {
+  const handleProgressSet = useCallback((e: ProgressMouseEvent) => {
     const {left, width} =  e.target.getBoundingClientRect();
     const clickX = e.clientX - left;
 
     const newProgressValue = clickX * 100 / width;
     onSetProgress(newProgressValue);
-  };
+  }, [onSetProgress]);
 
-  const handleProgressChangeWithKeyboard = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleProgressChangeWithKeyboard = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
     if (e.code === 'ArrowLeft') {
       onShiftProgressWithKeyboard("left");
     } else if (e.code === 'ArrowRight') {
@@ -27,9 +27,11 @@ export const ProgressBar = () => {
     } else {
       return;
     }
-  };
+  }, [onShiftProgressWithKeyboard]);
 
   return (
     <div className={cls.progressBar} onClick={handleProgressSet} tabIndex={0} onKeyDown={handleProgressChangeWithKeyboard} aria-label="Track's progress bar" role='slider' />
   );
-};
+});
+
+ProgressBar.displayName = 'ProgressBar';

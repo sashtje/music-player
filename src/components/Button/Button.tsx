@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes} from "react";
+import {ButtonHTMLAttributes, memo} from "react";
 
 import {classNames} from "../../shared/helpers/classNames";
 
@@ -13,7 +13,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
 }
 
-export const Button = (props: ButtonProps) => {
+export const Button = memo((props: ButtonProps) => {
   const {
     className,
     size = 's',
@@ -29,4 +29,6 @@ export const Button = (props: ButtonProps) => {
       {...otherProps}
     >{children}</button>
   );
-};
+});
+
+Button.displayName = 'Button';
