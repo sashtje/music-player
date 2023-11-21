@@ -30,6 +30,6 @@ export const ProgressBar = () => {
   };
 
   return (
-    <div className={cls.progressBar} onClick={handleProgressSet} tabIndex={0} onKeyDown={handleProgressChangeWithKeyboard} />
+    <div className={cls.progressBar} onClick={handleProgressSet} tabIndex={0} onKeyDown={handleProgressChangeWithKeyboard} aria-label="Track's progress bar" role='slider' />
   );
 };

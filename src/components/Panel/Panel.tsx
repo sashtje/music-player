@@ -10,7 +10,7 @@ import {ReactComponent as PlayPauseIcon} from '../../assets/icons/pause-play.svg
 import {ReactComponent as NextIcon} from '../../assets/icons/next.svg';
 
 export const Panel = () => {
-  const { trackTitle, onPlayPause, onSwitchTrack } = usePlayerContext();
+  const { isPlaying, trackTitle, onPlayPause, onSwitchTrack } = usePlayerContext();
 
   const onPrevTrack = () => {
     onSwitchTrack('prev');
@@ -22,17 +22,17 @@ export const Panel = () => {
 
   return (
     <div className={cls.panel}>
-      <Button variant='round' size='m' onClick={onPrevTrack}>
+      <Button variant='round' size='m' onClick={onPrevTrack} aria-label='Go to previous track'>
         <PrevIcon className={cls.prevIcon} />
       </Button>
       <VolumeControls />
 
-      <Button variant='round' size='l' onClick={onPlayPause}>
+      <Button variant='round' size='l' onClick={onPlayPause} aria-label={isPlaying ? 'Turn off the track' : 'Turn on the track'}>
         <PlayPauseIcon className={cls.playPauseIcon} />
       </Button>
       <div>{trackTitle}</div>
 
-      <Button variant='round' size='m' onClick={onNextTrack}>
+      <Button variant='round' size='m' onClick={onNextTrack} aria-label='Go to next track'>
         <NextIcon className={cls.nextIcon} />
       </Button>
       <ProgressBar />

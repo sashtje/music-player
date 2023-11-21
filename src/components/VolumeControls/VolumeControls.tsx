@@ -17,13 +17,13 @@ export const VolumeControls = () => {
 
   return (
     <div className={cls.volume}>
-      <Button onClick={onVolumeTurnOff}>
+      <Button onClick={onVolumeTurnOff} aria-label='Turn off the sound'>
         <VolumeCrossIcon className={cls.volumeCrossIcon} />
       </Button>
 
-      <input className={cls.range} type="range" min={0} max={1} step={0.05} value={volumeValue} onChange={handleChange} />
+      <input className={cls.range} type="range" min={0} max={1} step={0.05} value={volumeValue} onChange={handleChange} aria-label='Volume slider' />
 
-      <Button onClick={onVolumeTurnOn}>
+      <Button onClick={onVolumeTurnOn} aria-label='Turn the sound on full volume'>
         <VolumeLoudIcon className={cls.volumeLoudIcon} />
       </Button>
     </div>
